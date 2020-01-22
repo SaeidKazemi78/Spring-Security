@@ -7,30 +7,37 @@ import java.util.Set;
 @Table(name="tbl_user")
 public class Users {
 
+    public Users(UserDto dto){
+        this.email=dto.getEmail();
+        this.password=dto.getPassword();
+        this.username=dto.getUsername();
+        this.active=dto.getActive();
+        this.lastName=dto.getLastName();
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    public int id;
 
     @Column(name = "email")
-    private String email;
+    public String email;
 
     @Column(name = "password")
-    private String password;
+    public String password;
 
     @Column(name = "username")
-    private String username;
+    public String username;
 
     
     @Column(name = "last_name")
-    private String lastName;
+    public String lastName;
     
     @Column(name = "active")
-    private int active;
+    public int active;
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    public Set<Role> roles;
 
 
     

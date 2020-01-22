@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { user } from '../models/user';
+import { UserDto } from '../models/user';
 import { LoginService } from '../services/login.service';
 
 @Component({
@@ -9,23 +9,32 @@ import { LoginService } from '../services/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginSer:LoginService) { }
+  constructor(private loginSer: LoginService) { }
 
   ngOnInit() {
   }
   username;
-  password;
+  pass;
 
-  user:user;
-  doLogin(){
-    this.user= new user();
-    this.user.username=this.username;
-    this.user.password=this.password;
-
+  user: UserDto;
+  doLogin() {
+    
+    this.user = new UserDto();
+    this.user.username = this.username;
+    this.user.password = this.pass;
+    // this.user.pass = "Kazemi";
+    this.user.active = 1;
+    console.log(this.user);
+    
     this.loginSer.signUp(this.user).subscribe(
-      (data)=>{
+      (data) => {
         console.log(data);
+      },
+      err=>{
+        console.log(err);
+        
       }
+
     );
     // alert("Login.... called")
   }

@@ -1,5 +1,7 @@
 package com.techprimers.security.securitydbexample.config;
 
+import java.util.Arrays;
+
 import com.techprimers.security.securitydbexample.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 @EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
@@ -45,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers("/rest/home").permitAll()
         .antMatchers("/").permitAll()
+        // .antMatchers("/users/**").permitAll()
         .antMatchers("/user-not-found").permitAll()
         .antMatchers("/add").permitAll()
         .antMatchers("/rest/user").permitAll()
@@ -52,6 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/login").permitAll()
         .antMatchers("/rest/user-now").permitAll()  
         .anyRequest().authenticated()
+        .and().cors().configurationSource(corsConfigurationSource())
         .and().formLogin().permitAll().successHandler(authSuccessHandler).failureHandler(customAuthenticationEntryPoint);
         http.exceptionHandling().accessDeniedPage("/acces-denied");
         http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
@@ -63,9 +70,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		PasswordEncoder encoder = new BCryptPasswordEncoder();
 		return encoder;
     }
+
     /*
   This will be used to create the json we'll send back to the client from
   the CustomAuthenticationEntryPoint class.
 */
   
+//this is work for Spring security
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200",
+                         "https://diary-for-travellers.herokuapp.com"));
+    configuration.setAllowedMethods(Arrays.asList("*"));
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    configuration.setAllowCredentials(true);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
 }

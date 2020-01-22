@@ -78,15 +78,15 @@ public class SecurityDbExampleApplication extends SpringBootServletInitializer i
 		return manager;
 	}
 	
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:33475","/**","**").allowedMethods("POST", "GET","PUT","DELETE");
-            }
-        };
-    }
+    // @Bean
+    // public WebMvcConfigurer corsConfigurer() {
+    //     return new WebMvcConfigurerAdapter() {
+    //         @Override
+    //         public void addCorsMappings(CorsRegistry registry) {
+    //             registry.addMapping("/**").allowedOrigins("http://localhost:33475","/**","**").allowedMethods("POST", "GET","PUT","DELETE");
+    //         }
+    //     };
+    // }
 	@Override
 	public void run(String... args) throws Exception {
 		LOGGER.info("Application running .....  from logger");

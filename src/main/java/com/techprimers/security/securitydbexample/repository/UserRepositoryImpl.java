@@ -31,6 +31,11 @@ public class UserRepositoryImpl implements UsersRepository {
         return sessionFactory.getCurrentSession();
     }
 
+    public void delete(int id){
+        Users user =getSession().get(Users.class, id);
+        getSession().delete(user);
+    }
+
     public void save(Users user) {
         getSession().saveOrUpdate(user);
     }

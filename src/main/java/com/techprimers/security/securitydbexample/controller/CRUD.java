@@ -2,24 +2,28 @@ package com.techprimers.security.securitydbexample.controller;
 
 import java.util.Set;
 
+import javax.validation.ConstraintViolationException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techprimers.security.securitydbexample.helper.Response2;
 import com.techprimers.security.securitydbexample.model.Role;
+import com.techprimers.security.securitydbexample.model.UserDto;
 import com.techprimers.security.securitydbexample.model.Users;
 import com.techprimers.security.securitydbexample.repository.UserRepositoryImpl;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(path = "/users")
 public class CRUD {
 
     private UserRepositoryImpl userRepository;
@@ -35,14 +39,35 @@ public class CRUD {
         return "Bad Credentials - User Not‌ Found";
     }
 
-    
-    // @CrossOrigin(origins = "http://localhost:33475",methods = {RequestMethod.POST,RequestMethod.GET})
-    @PostMapping("/sign-up")
-    public Response2 addUser(@RequestBody Users user) {
+    @RequestMapping("/sign-up")
+    public Response2 addUser(@RequestBody UserDto user) throws JsonProcessingException {
+        System.out.println("Here is rest");
+        ObjectMapper mapper = new ObjectMapper();
 
         try {
-            userRepository.save(user);
+            Users user1 = new Users();
+            user1=UserDto.toModel(user);
+            user1.setPassword(BycryptEncode(user.getPassword()));
+            System.out.println(user.getUsername()+ "==   user name %%%%%%%%%%%%%%%%%%%%%%%%%%");
+            System.out.println("#############‌object :" + mapper.writeValueAsString(user1));
+            userRepository.save(user1);
             return new Response2("Saved success");
+        } catch (ConstraintViolationException ex) {
+            Response2 re = new Response2();
+            re.setErrorCode(HttpStatus.BAD_REQUEST);
+            re.setErrorMessage("Exception occured !");
+            // re.setMessage(message);
+            System.out.println(ex.getMessage());
+            return re;
+        }
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public Response2 delete(@PathVariable("id") int id ) {
+
+        try {
+            userRepository.delete(id);
+            return new Response2("Deleted successfully");
         } catch (Exception ex) {
             Response2 re = new Response2();
             re.setErrorCode(HttpStatus.BAD_REQUEST);
@@ -51,7 +76,6 @@ public class CRUD {
             return re;
         }
     }
-
     
 
     @RequestMapping("/admin")
