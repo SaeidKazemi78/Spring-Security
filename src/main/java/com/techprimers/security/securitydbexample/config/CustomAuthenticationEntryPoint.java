@@ -26,7 +26,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationFailureHand
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
-                redirectStrategy.sendRedirect(request, response, "/user-not-found");
+                redirectStrategy.sendRedirect(request, response, "users/user-not-found");
     }
 
 

@@ -16,12 +16,16 @@ public class CustomUserDetails extends Users implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends uthority> getAuthorities() {
 
-        return super.getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
-                .collect(Collectors.toList());
+        return super.getRoles().stream().map(role-> new SimpleGrantedAuthority("ROLE_"+role.getRole()))
+        .collect(Collectors.toList());
+        
+
+        // return super.getRoles()
+        //         .stream()
+        //         .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+        //         .collect(Collectors.toList());
     }
     
     @Override

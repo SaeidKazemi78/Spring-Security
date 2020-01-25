@@ -1,5 +1,6 @@
 package com.techprimers.security.securitydbexample.controller;
 
+import com.techprimers.security.securitydbexample.helper.Response2;
 import com.techprimers.security.securitydbexample.model.Users;
 
 import org.springframework.security.access.annotation.Secured;
@@ -57,14 +58,14 @@ public class HelloResource {
 
     //This method give us current logged in user
     @RequestMapping("/user-now")
-    public String getUserNow() {
+    public Object getUserNow() {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user instanceof UserDetails) {
             String username = ((UserDetails) user).getUsername();
-            return username;
+            return  new Response2(username);
         } else {
             String username = user.toString();
-            return username;
+            return new Response2(username);
         }
     }
 

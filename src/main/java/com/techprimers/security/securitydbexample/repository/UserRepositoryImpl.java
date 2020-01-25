@@ -46,7 +46,6 @@ public class UserRepositoryImpl implements UsersRepository {
 
     @Override
     public Optional<Users> findByUserName(final String username) {
-
         final Criteria criteria = getSession().createCriteria(Users.class);
         criteria.add(Restrictions.eq("username", username));
         final List<Users> user = criteria.list();

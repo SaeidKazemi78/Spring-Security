@@ -1,5 +1,6 @@
 
 export class UserDto{
+  
     public id:number;
 
       public  email:String;

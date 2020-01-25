@@ -8,15 +8,18 @@ import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { UsersComponent } from './users/users.component';
 const rout:Routes=[
   {path:'login',component:LoginComponent},
-  {path:"sign-up",component:SignUpComponent}
+  {path:"sign-up",component:SignUpComponent},
+  {path:"users",component:UsersComponent}
 ]
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    UsersComponent
   ],
   
   imports: [

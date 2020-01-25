@@ -43,9 +43,9 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
         
 		if (hasUserRole) {
-			redirectStrategy.sendRedirect(request,response, "/user?username="+ authentication.getName());//if user with role 'user' athenticates he/she will redirect to 'user' page
+			redirectStrategy.sendRedirect(request,response, "users/user?username="+ authentication.getName());//if user with role 'user' athenticates he/she will redirect to 'user' page
 		} else if (hasAdminRole) {
-			redirectStrategy.sendRedirect(request, response, "/admin");//if user with role 'admin' athenticates he/she will redirect to 'admin' page
+			redirectStrategy.sendRedirect(request, response, "users/admin");//if user with role 'admin' athenticates he/she will redirect to 'admin' page
 		} else {
 			redirectStrategy.sendRedirect(request, response, "/");//if the user does not have one of those roles  he will redirect to 'home' page 
 			
